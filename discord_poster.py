@@ -4,9 +4,9 @@ import os
 WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK_URL")
 
 data = {
-    "content": "👋 Hello! This is your biweekly automated message.",
-    "username": "My Custom Bot",  # override webhook name
-    # "avatar_url": "https://example.com/avatar.png"  # optional
+    "content": "Dags att städa!",
+    "username": "Städis",  # override webhook name
+    "avatar_url": "https://raw.githubusercontent.com/pwaag/gkk-bot/main/avatar.png"  # optional
 }
 
 response = requests.post(WEBHOOK_URL, json=data)
