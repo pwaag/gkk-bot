@@ -2,7 +2,7 @@ name: Send Discord Message
 
 on:
   schedule:
-    - cron: "*/5 * * * *"  # every 5 minutesery 14 days at 09:00 UTC
+    - cron: "0 9 * * *"  # every day at 09:00 UTC
   workflow_dispatch: # lets you run it manually too
 
 jobs:
