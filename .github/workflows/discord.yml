@@ -1,0 +1,27 @@
+name: Send Discord Message
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"  # every 5 minutesery 14 days at 09:00 UTC
+  workflow_dispatch: # lets you run it manually too
+
+jobs:
+  send-message:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run script
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: python send_discord.py
