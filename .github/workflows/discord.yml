@@ -2,12 +2,15 @@ name: Send Discord Message
 
 on:
   schedule:
-    - cron: "0 9 * * *"  # every day at 09:00 UTC
-  workflow_dispatch: # lets you run it manually too
+    - cron: "*/10 * * * *"  # testing
+  workflow_dispatch:
 
 jobs:
   send-message:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write  # needed to push state.json
 
     steps:
       - name: Checkout repo
@@ -24,4 +27,13 @@ jobs:
       - name: Run script
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          SCHEMA: ${{ secrets.SCHEMA }}
         run: python discord_poster.py
+
+      - name: Commit state
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add state.json
+          git commit -m "Update cleaning state" || echo "No changes"
+          git push
