@@ -9,12 +9,17 @@ STATE_FILE = "state.json"
 
 
 # ------------------------
-# Time
+# Time helpers
 # ------------------------
 def get_current_year_week():
     today = datetime.date.today()
     iso = today.isocalendar()
     return iso.year, iso.week
+
+
+def get_weekday():
+    # Monday = 1, Sunday = 7
+    return datetime.date.today().isoweekday()
 
 
 # ------------------------
@@ -52,7 +57,7 @@ def get_names_from_schema(schema_str, year, week):
     f = StringIO(schema_str)
     reader = csv.reader(f, delimiter=';')
 
-    header = next(reader)
+    next(reader)  # skip header
 
     for row in reader:
         if not row or len(row) < 4:
@@ -69,7 +74,6 @@ def get_names_from_schema(schema_str, year, week):
                 if cell.strip() == "":
                     break
                 names.append(cell.strip())
-
             return names
 
     return []
@@ -82,8 +86,12 @@ def send_discord_message(webhook_url, names, year, week):
     if not names:
         return
 
-    message = f"🧹 Städvecka {week} ({year})\n\n"
-    message += "\n".join(f"- {name}" for name in names)
+    names_str = ", ".join(names)
+
+    message = (
+        f"Äntligen dags att städa klubblokalen igen! "
+        f"Den här veckan faller turen på {names_str}."
+    )
 
     response = requests.post(webhook_url, json={"content": message})
 
@@ -92,7 +100,7 @@ def send_discord_message(webhook_url, names, year, week):
 
 
 # ------------------------
-# Main flow
+# Main logic
 # ------------------------
 def main():
     schema = os.environ.get("SCHEMA")
@@ -105,7 +113,10 @@ def main():
         raise Exception("Missing DISCORD_WEBHOOK_URL secret")
 
     year, week = get_current_year_week()
+    weekday = get_weekday()
     state = load_state()
+
+    print(f"Today is ISO week {week}, weekday {weekday}")
 
     names = get_names_from_schema(schema, year, week)
 
@@ -114,8 +125,13 @@ def main():
         return
 
     if not should_post(year, week, state):
-        print("Already posted, skipping.")
+        print("Already posted this week, skipping.")
         return
+
+    if weekday == 1:
+        print("It's Monday — ideal posting day")
+    else:
+        print(f"Missed Monday, posting late (weekday {weekday})")
 
     print(f"Posting for {year}-W{week}: {names}")
 
