@@ -27,7 +27,7 @@ jobs:
       - name: Run script
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          SCHEMA: ${{ secrets.SCHEMA }}
+          SCHEMA: ${{ secrets.SCHEDULE }}
         run: python discord_poster.py
 
       - name: Commit state
