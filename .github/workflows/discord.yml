@@ -2,7 +2,7 @@ name: Send Discord Message
 
 on:
   schedule:
-    - cron: "*/10 * * * *"  # testing
+    - cron: "0 9 * * *"
   workflow_dispatch:
 
 jobs:
