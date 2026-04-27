@@ -93,7 +93,13 @@ def send_discord_message(webhook_url, names, year, week):
         f"Den här veckan faller turen på {names_str}."
     )
 
-    response = requests.post(webhook_url, json={"content": message})
+    payload = {
+        "content": message,
+        "username": "Städbot",
+        "avatar_url": "avatar.png"
+    }
+
+    response = requests.post(webhook_url, json=payload)
 
     if response.status_code != 204:
         raise Exception(f"Discord error: {response.status_code}, {response.text}")
