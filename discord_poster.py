@@ -95,7 +95,7 @@ def send_discord_message(webhook_url, names, year, week):
 
     payload = {
         "content": message,
-        "username": "Städbot (schemalagd med avatar)",
+        "username": "Städbot",
         "avatar_url": "https://raw.githubusercontent.com/pwaag/gkk-bot/main/avatar.png"
     }
 
