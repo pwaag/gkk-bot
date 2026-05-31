@@ -94,7 +94,7 @@ def send_discord_message(webhook_url, names, year, week):
     
     prompt = f"""
     Skriv ett kort, humoristiskt meddelande på svenska om att det är dags att städa klubblokalen.
-    Klubben är en styreklyftsklubb i Göteborg, Sverige.
+    Klubben är en styrkelyftsklubb.
     Nämn följande personer: {names_str}.
     Max 2 meningar.
     Variera formuleringen från tidigare gånger.
