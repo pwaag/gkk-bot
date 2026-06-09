@@ -88,24 +88,10 @@ def send_discord_message(webhook_url, names, year, week):
 
     names_str = ", ".join(names)
 
-    from openai import OpenAI
-
-    client = OpenAI()
-    
-    prompt = f"""
-    Skriv ett kort, humoristiskt meddelande på svenska om att det är dags att städa klubblokalen.
-    Klubben är en styrkelyftsklubb.
-    Nämn följande personer: {names_str}.
-    Max 2 meningar.
-    Variera formuleringen från tidigare gånger.
-    """
-    
-    response = client.responses.create(
-        model="gpt-5-mini",
-        input=prompt
+    message = (
+        f"Äntligen dags att städa klubblokalen igen! "
+        f"Den här veckan faller turen på {names_str}."
     )
-    
-    message = response.output_text
 
     payload = {
         "content": message,
