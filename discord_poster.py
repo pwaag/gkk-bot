@@ -88,10 +88,7 @@ def send_discord_message(webhook_url, names, year, week):
 
     names_str = ", ".join(names)
 
-    message = (
-        f"Äntligen dags att städa klubblokalen igen! "
-        f"Den här veckan faller turen på {names_str}."
-    )
+    message = ( f"Äntligen! Veckans höjdpunkt är här: STÄDNING. 🥳 " f"{names_str}, ni har blivit utvalda av ödet (och städschemat). " f"Lycka till! 🧹" )
 
     payload = {
         "content": message,
